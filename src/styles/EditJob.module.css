@@ -1,0 +1,94 @@
+.editJobContainer {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .editJobContainer h1 {
+    text-align: center;
+    color: var(--main-green);
+    margin: 10px 0;
+  }
+  
+  .jobList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .jobCard {
+    background-color: #f9f9f9;
+    border: 1px solid var(--main-green);
+    border-radius: 5px;
+    padding: 15px;
+    width: 300px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .jobCard h3 {
+    margin: 0;
+    color: var(--black);
+  }
+  
+  .jobCard p {
+    margin: 5px 0;
+    color: #555;
+  }
+  
+  
+  .editFormContainer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid var(--main-green);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 500px;
+  }
+  
+  .editForm h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--main-green);
+  }
+  
+  .editForm input,
+  .editForm textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid var(--main-green);
+    border-radius: 5px;
+  }
+  
+  .editForm textarea {
+    height: 100px;
+    resize: none;
+  }
+  
+  .formButtons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .cancelButton {
+    background-color: #dc3545;
+    color: var(--background);
+    border: 2px solid #dc3545;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s;
+  }
+  
+  .cancelButton:hover {
+    color: #c82333;
+    background-color: var(--background);
+  }
+  

@@ -1,0 +1,97 @@
+
+.loginContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    background: var(--background);
+    margin: 0;
+    padding: 10px;
+    font-family: "Arial", sans-serif;
+  }
+  
+  .loginForm {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    background-color: #ffffff; 
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    animation: all 0.8s ease-in-out; 
+  }
+  
+  .loginForm h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    color: var(--dark-green);
+  }
+  
+  .loginForm input {
+    margin-bottom: 1rem;
+    padding: 12px 15px;
+    font-size: 1rem;
+    border: 1px solid var(--main-green);
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .loginForm input:focus {
+    border-color: var(--dark-green);
+  }
+  
+  .Button:nth-child(2) a {
+    text-decoration: none;
+    color: #ffffff;
+  }
+  
+  
+  @media (max-width: 768px) {
+    .loginForm {
+      padding: 1.5rem;
+      max-width: 90%; 
+    }
+  
+    .loginForm h2 {
+      font-size: 1.8rem;
+    }
+  
+    .loginForm input,
+    .loginForm button {
+      font-size: 0.9rem;
+      padding: 10px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .loginForm {
+      padding: 1rem;
+      max-width: 95%;
+    }
+  
+    .loginForm h2 {
+      font-size: 1.5rem;
+    }
+  
+    .loginForm input,
+    .loginForm button {
+      font-size: 0.8rem;
+      padding: 8px;
+    }
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  

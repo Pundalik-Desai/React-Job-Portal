@@ -1,0 +1,136 @@
+
+.profileContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .profileCard {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .profileHeading {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+    color: var(--dark-green);
+  }
+  
+  .profileField {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .label {
+    font-size: 14px;
+    color: var(--black);
+  }
+  
+  .input,
+  .select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid var(--main--green);
+    border-radius: 4px;
+    outline: none;
+  }
+  
+  .input:focus,
+  .select:focus {
+    border-color: var(--main-green);
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+  }
+  
+  .text {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  /* Button styles */
+  .buttonContainer {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .editButton,
+  .saveButton,
+  .cancelButton {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .editButton {
+    background-color: var(--main-green);
+    color: var(--background);
+    border: 2px solid var(--main-green);
+  }
+  
+  .editButton:hover {
+    background-color: var(--background);
+    color: var(--main-green);
+  }
+  
+  .saveButton {
+    background-color: var(--main-green);
+    color: var(--background);
+    border: 2px solid var(--main-green);
+  }
+  
+  .saveButton:hover {
+    background-color: var(--background);
+    color: var(--main--green);
+  }
+  
+  .cancelButton {
+    background-color: #f44336;
+    
+    border: 2px solid #f44336;
+    color: var(--background);
+  }
+  
+  .cancelButton:hover {
+    background-color: var(--background);
+    color: #f44336;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .profileCard {
+      padding: 15px;
+      gap: 10px;
+    }
+  
+    .profileHeading {
+      font-size: 20px;
+    }
+  
+    .input,
+    .select {
+      font-size: 14px;
+      padding: 8px;
+    }
+  
+    .editButton,
+    .saveButton,
+    .cancelButton {
+      padding: 8px 15px;
+      font-size: 14px;
+    }
+  }
+  

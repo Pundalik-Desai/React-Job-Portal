@@ -1,0 +1,119 @@
+.jobsContainer {
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+  }
+  .jobsContainer h2{
+    text-align: center;
+    color: var(--dark-green);
+    font-size: 2.5rem;
+    margin: 10px 0px;
+  }
+  .applyFormContainer h3{
+    text-align: center;
+    color: var(--main-green);
+    padding-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  
+  .jobList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .jobCard {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .jobCard h3 {
+    margin: 0 0 10px;
+    color: var(--black);
+  }
+  
+  .jobCard p {
+    margin: 5px 0;
+    color: #555;
+  }
+  
+  .applyFormContainer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--background);
+    border: 2px solid var(--main-green);
+    border-radius: 10px;
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+  }
+  
+  .applyForm h3 {
+    margin-bottom: 15px;
+    text-align: center;
+    color: var(--main-green);
+  }
+  
+  .applyForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .applyForm input[type="text"],
+  .applyForm input[type="email"],
+  .applyForm input[type="file"] {
+    padding: 10px;
+    border: 1px solid var(--main-green);
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #fff;
+  }
+  
+  .applyForm input:focus {
+    outline: none;
+    border-color: var(--dark-green);
+    box-shadow: 0 0 5px var(--main-green);
+  }
+  
+  .submitButton {
+    padding: 10px 20px;
+    background-color: var(--main-green);
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submitButton:hover {
+    background-color: var(--dark-green);
+  }
+  
+  .cancelButton {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: var(--light-orange);
+    border: none;
+    border-radius: 5px;
+    color: var(--black);
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cancelButton:hover {
+    background-color: var(--dark-green);
+    color: #fff;
+  }
+  
+  

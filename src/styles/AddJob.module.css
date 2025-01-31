@@ -1,0 +1,28 @@
+.addJobContainer {
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  .addJobForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .addJobForm h2 {
+    color: var(--main-green);
+    text-align: center;
+    margin: 10px 0;
+    font-size: 2rem;
+  }
+  
+  .addJobForm input,
+  .addJobForm textarea {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid var(--main-green);
+    border-radius: 5px;
+  }
+  
+  
