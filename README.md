@@ -3,6 +3,9 @@
 ## Overview
 This is a **React.js Job Portal** where job seekers can explore available jobs, and employers can post new job openings.
 
+## Live Demo
+[View Demo](https://ali-job-portal.netlify.app/)
+
 ## Features
 - Job seekers can view and apply for jobs.
 - Employers can add new job listings.
