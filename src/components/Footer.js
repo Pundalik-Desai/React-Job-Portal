@@ -9,34 +9,48 @@ const Footer = () => {
         <div className={styles.column}>
           <h3>About Us</h3>
           <p>
-            Ali Hassan, a MERN stack developer, connects job seekers with employers while creating seamless career opportunities. Passionate about building impactful web applications since 2022.
+            Vayun, a Online Job Portal, connects job seekers with employers
+            while creating seamless career opportunities. Passionate about
+            building impactful web applications since 2025.
           </p>
         </div>
 
         <div className={styles.column}>
           <h3>Contact Info</h3>
-          <p>Email: alidaisyhassan@gmail.com</p>
-          <p>Phone: +92 (309) 4483014</p>
-          <p>Location: Lahore, Pakistan</p>
+          <p>Email: vayun@gmail.com</p>
+          <p>Phone: +91 3456204021</p>
+          <p>Location: Ratnagiri ,Maharashtra</p>
         </div>
 
         <div className={styles.column}>
           <h3>Follow Me</h3>
           <div className={styles.socialIcons}>
-            <a href="https://www.facebook.com/daisy.rajpoot.182" target="_blank" rel="noreferrer">
+            <a
+              href="www.linkedin.com/in/pundalik-desai-1b4060248"
+              target="_blank"
+              rel="noreferrer"
+            >
               <FaFacebookF />
             </a>
-            <a href="https://instagram.com/daisy_bhai" target="_blank" rel="noreferrer">
+            <a
+              href="www.linkedin.com/in/pundalik-desai-1b4060248"
+              target="_blank"
+              rel="noreferrer"
+            >
               <FaInstagram />
             </a>
-            <a href="https://www.linkedin.com/in/ali-hassan-riasat/" target="_blank" rel="noreferrer">
+            <a
+              href="www.linkedin.com/in/pundalik-desai-1b4060248"
+              target="_blank"
+              rel="noreferrer"
+            >
               <FaLinkedinIn />
             </a>
           </div>
         </div>
       </div>
       <div className={styles.bottomBar}>
-        <p>&copy; 2025 Ali Hassan - MERN Stack Developer. All rights reserved.</p>
+        <p>&copy; Vayun, a Online Job Portal. All rights reserved.</p>
       </div>
     </footer>
   );

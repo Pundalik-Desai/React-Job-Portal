@@ -1,48 +1,67 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import styles from "../styles/Register.module.css";
 
 const Register = () => {
   const [formData, setFormData] = useState({
     name: "",
+    authorityName: "",
     email: "",
     password: "",
-    role: "Job Seeker", 
+    location: "",
+    subscription: "free",
+    role: "Employer",
   });
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    if (users.some((user) => user.email === formData.email)) {
-      alert("Email is already registered");
-      return;
+    try {
+      const response = await axios.post(
+        "http://192.168.250.1:4000/api/v1/emr/register",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      alert("Registration successful");
+      navigate("/login");
+    } catch (error) {
+      alert(error.response?.data?.message || "Registration failed");
     }
-
-    const newUser = { ...formData, id: Date.now(), appliedJobs: [] };
-    localStorage.setItem("users", JSON.stringify([...users, newUser]));
-
-    navigate("/login");
   };
 
   return (
     <section className={styles.registerContainer}>
       <form className={styles.registerForm} onSubmit={handleSubmit}>
-        <h2>Register</h2>
-        
+        <h2>Employer Registration</h2>
+
         <input
           className={styles.inputField}
           name="name"
-          placeholder="Name"
+          placeholder="Company Name"
           onChange={handleChange}
           required
         />
-        
+
+        <input
+          className={styles.inputField}
+          name="authorityName"
+          placeholder="Authority Name"
+          onChange={handleChange}
+          required
+        />
+
         <input
           className={styles.inputField}
           name="email"
@@ -51,7 +70,7 @@ const Register = () => {
           onChange={handleChange}
           required
         />
-        
+
         <input
           className={styles.inputField}
           name="password"
@@ -60,21 +79,29 @@ const Register = () => {
           onChange={handleChange}
           required
         />
-        
+
+        <input
+          className={styles.inputField}
+          name="location"
+          placeholder="Location"
+          onChange={handleChange}
+          required
+        />
+
         <select
           className={styles.selectField}
-          name="role"
+          name="subscription"
           onChange={handleChange}
-          value={formData.role}
+          value={formData.subscription}
+          required
         >
-          <option value="Job Seeker">Job Seeker</option>
-          <option value="Employer">Employer</option>
+          <option value="free">Free</option>
+          <option value="paid">Paid</option>
         </select>
-        
-        <button className={styles.button}  type="submit">
+
+        <button className={styles.button} type="submit">
           Register
         </button>
-
       </form>
     </section>
   );
