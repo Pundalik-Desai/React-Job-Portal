@@ -129,13 +129,28 @@ const Login = () => {
     console.log("Submitting credentials:", credentials);
 
     try {
+      console.log("called");
       const response = await axios.post(
-        "https://vayun-backend.onrender.com/api/v1/emr/login",
-        credentials
+        "http://192.168.250.1:4000/api/v1/emr/login",
+        credentials,
+        {
+          timeout: 100000,
+        }
       );
 
       console.log("Response received:", response.data);
-      alert("Login successful");
+
+      // alert("Login successful");
+      const userData = response.data.data.employer;
+
+      localStorage.setItem("loggedInUser", JSON.stringify(userData));
+      localStorage.setItem(
+        "accessToken",
+        JSON.stringify(response.data.data.accessToken)
+      );
+
+      console.log(userData);
+      // navigate("/application/id");
       navigate("/dashboard");
     } catch (err) {
       console.error("Login Error:", err);

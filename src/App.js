@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom"; // ❌ Yahan Router import na karein
+import { Routes, Route, useParams } from "react-router-dom"; // ❌ Yahan Router import na karein
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -10,6 +10,7 @@ import AllJobs from "./pages/AllJobs";
 import EditJob from "./pages/EditJob";
 import MyApplications from "./pages/MyApplications";
 import Footer from "./components/Footer";
+import ViewSingleApplication from "./components/ViewSingleApplication";
 
 function App() {
   return (
@@ -25,10 +26,18 @@ function App() {
         <Route path="/all-jobs" element={<AllJobs />} />
         <Route path="/edit-jobs" element={<EditJob />} />
         <Route path="/applications" element={<MyApplications />} />
+        <Route
+          path="/application/:applicationID"
+          element={<ViewSingleApplicationWrapper />}
+        />
       </Routes>
       <Footer />
     </>
   );
 }
 
+const ViewSingleApplicationWrapper = () => {
+  const { applicationID } = useParams();
+  return <ViewSingleApplication applicationID={applicationID} />;
+};
 export default App;

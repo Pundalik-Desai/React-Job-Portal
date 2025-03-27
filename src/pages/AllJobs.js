@@ -1,113 +1,89 @@
-import React, { useState } from "react";
-import styles from "../styles/AllJobs.module.css";
+import React, { useEffect, useState } from "react";
 
 const AllJobs = () => {
-  const user = JSON.parse(localStorage.getItem("loggedInUser"));
-  const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
-  const [selectedJob, setSelectedJob] = useState(null);
-  const [applicationDetails, setApplicationDetails] = useState({
-    name: "",
-    email: user.email,
-    phone: "",
-    cv: null,
-  });
+  const [jobs, setJobs] = useState([]);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  const handleApply = (job) => {
-    setSelectedJob(job);
-  };
+  useEffect(() => {
+    const fetchJobs = async () => {
+      setLoading(true);
+      setError("");
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    setApplicationDetails((prev) => ({
-      ...prev,
-      [name]: files ? files[0] : value,
-    }));
-  };
+      const accessToken = JSON.parse(localStorage.getItem("accessToken"));
+      const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+      const employerId = loggedInUser?._id; // Extract employer ID
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+      if (!accessToken || !employerId) {
+        setError("Unauthorized! Please log in again.");
+        setLoading(false);
+        return;
+      }
 
-    const newApplication = {
-      id: Date.now(),
-      userId: user.id,
-      userName: applicationDetails.name,
-      email: applicationDetails.email,
-      phone: applicationDetails.phone,
-      cv: applicationDetails.cv?.name,
-      jobId: selectedJob.id,
-      jobTitle: selectedJob.title,
-      jobDescription: selectedJob.description,
-      jobLocation: selectedJob.location,
-      jobSalary: selectedJob.salary,
+      try {
+        const response = await fetch(
+          "http://192.168.250.1:4000/api/v1/emr/job",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Failed to fetch jobs");
+        }
+
+        const data = await response.json();
+        console.log("API Response:", data);
+
+        // Filter jobs where the owner matches the logged-in employer ID
+        const userJobs = data.data.myApplications.filter(
+          (job) => job.owner === employerId
+        );
+        setJobs(userJobs);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    const storedApplications = JSON.parse(localStorage.getItem("applications")) || [];
-    localStorage.setItem("applications", JSON.stringify([...storedApplications, newApplication]));
-
-    alert("Application submitted successfully!");
-    setSelectedJob(null);
-  };
+    fetchJobs();
+  }, []);
 
   return (
-    <section className={styles.jobsContainer}>
-      <h2>All Jobs</h2>
-      <div className={styles.jobList}>
-        {jobs.map((job) => (
-          <div key={job.id} className={styles.jobCard}>
-            <h3>{job.title}</h3>
-            <p>{job.description}</p>
-            <p><strong>Location:</strong> {job.location}</p>
-            <p><strong>Salary:</strong> {job.salary}</p>
-            {user.role === "Job Seeker" ? (
-              <button onClick={() => handleApply(job)} className="Button">
-                Apply
-              </button>
-            ) : null}
-          </div>
-        ))}
-      </div>
-
-      {selectedJob && (
-        <div className={styles.applyFormContainer}>
-          <h3>Apply for {selectedJob.title}</h3>
-          <form className={styles.applyForm} onSubmit={handleSubmit}>
-            <input
-              type="text"
-              name="name"
-              placeholder="Your Name"
-              value={applicationDetails.name}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder="Your Email"
-              value={applicationDetails.email}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="text"
-              name="phone"
-              placeholder="Phone Number"
-              value={applicationDetails.phone}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="file"
-              name="cv"
-              onChange={handleChange}
-              required
-            />
-            <button type="submit" className={styles.submitButton}>Submit</button>
-          </form>
-          <button onClick={() => setSelectedJob(null)} className={styles.cancelButton}>
-            Cancel
-          </button>
-        </div>
-      )}
+    <section style={{ padding: "20px" }}>
+      <h2>Your Posted Jobs</h2>
+      {loading && <p>Loading jobs...</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      <ul>
+        {jobs.length > 0 ? (
+          jobs.map((job) => (
+            <li
+              key={job._id}
+              style={{ borderBottom: "1px solid #ddd", padding: "10px 0" }}
+            >
+              <h3>{job.title}</h3>
+              <p>{job.description}</p>
+              <p>
+                <strong>Location:</strong> {job.location}
+              </p>
+              <p>
+                <strong>Salary Range:</strong> {job.salaryRange}
+              </p>
+              <p>
+                <strong>Type:</strong> {job.jobType}
+              </p>
+            </li>
+          ))
+        ) : (
+          <p>No jobs found.</p>
+        )}
+      </ul>
     </section>
   );
 };
