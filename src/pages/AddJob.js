@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AddJob = () => {
   const [jobData, setJobData] = useState({
@@ -6,15 +7,16 @@ const AddJob = () => {
     description: "",
     location: "",
     salaryRange: "",
-    jobType: "Full Time", // Default value
+    jobType: "Full Time",
     jobHours: "",
     openings: "",
     qualification: "",
     instructions: "",
     contactInfo: "",
     closeDate: "",
-    active: false, // Default false
+    active: false,
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -60,6 +62,7 @@ const AddJob = () => {
           closeDate: "",
           active: false,
         });
+        navigate("/dashboard"); // Navigate to dashboard after success
       } else {
         const errorData = await response.json();
         alert(`Failed to post job: ${errorData.message || "Unknown error"}`);
@@ -70,20 +73,19 @@ const AddJob = () => {
     }
   };
 
-  // Internal styles
   const styles = {
     addJobContainer: {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
       minHeight: "100vh",
-      backgroundColor: "#f5f5f5",
+      backgroundColor: "#eef2f3",
       padding: "20px",
     },
     addJobForm: {
       backgroundColor: "#ffffff",
-      borderRadius: "8px",
-      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+      borderRadius: "12px",
+      boxShadow: "0 5px 15px rgba(0, 0, 0, 0.2)",
       padding: "30px",
       width: "100%",
       maxWidth: "600px",
@@ -91,59 +93,58 @@ const AddJob = () => {
     formTitle: {
       textAlign: "center",
       marginBottom: "20px",
-      color: "#333",
+      color: "#2c3e50",
     },
     input: {
       width: "100%",
       padding: "12px",
       margin: "10px 0",
-      border: "1px solid #ddd",
-      borderRadius: "5px",
+      border: "1px solid #ccc",
+      borderRadius: "8px",
       fontSize: "16px",
-      transition: "border-color 0.3s",
-    },
-    inputFocus: {
-      borderColor: "#61dafb",
     },
     textarea: {
       width: "100%",
       padding: "12px",
       margin: "10px 0",
-      border: "1px solid #ddd",
-      borderRadius: "5px",
+      border: "1px solid #ccc",
+      borderRadius: "8px",
       fontSize: "16px",
       resize: "vertical",
-      transition: "border-color 0.3s",
     },
     select: {
       width: "100%",
       padding: "12px",
       margin: "10px 0",
-      border: "1px solid #ddd",
-      borderRadius: "5px",
+      border: "1px solid #ccc",
+      borderRadius: "8px",
       fontSize: "16px",
-    },
-    toggleContainer: {
-      display: "flex",
-      alignItems: "center",
-      margin: "10px 0",
-    },
-    toggleInput: {
-      marginRight: "10px",
     },
     button: {
+      // width: "100%",
+      // padding: "12px",
+      // backgroundColor: "#2980b9",
+      // border: "none",
+      // borderRadius: "8px",
+      // color: "#ffffff",
+      // fontSize: "16px",
+      // cursor: "pointer",
+      // transition: "background-color 0.3s",
+
       width: "100%",
-      padding: "12px",
-      backgroundColor: "#61dafb",
+      padding: "14px",
+      backgroundColor: "#0056b3",
+      color: "#fff",
       border: "none",
-      borderRadius: "5px",
-      color: "#ffffff",
-      fontSize: "16px",
+      borderRadius: "8px",
       cursor: "pointer",
-      transition: "background-color 0.3s",
+      fontSize: "18px",
+      fontWeight: "bold",
+      marginTop: "12px",
+      transition: "background 0.3s ease",
     },
     buttonHover: {
-      backgroundColor: "#ff4d4d",
+      backgroundColor: "#3498db",
     },
   };
 
@@ -235,9 +236,6 @@ const AddJob = () => {
           style={styles.input}
           required
         />
-        <label style={{ margin: "10px 0", color: "#333" }}>
-          Application Close Date :
-        </label>
         <input
           name="closeDate"
           type="date"
@@ -246,14 +244,13 @@ const AddJob = () => {
           style={styles.input}
           required
         />
-        <label style={styles.toggleContainer}>
+        <label>
           <input
             type="checkbox"
             name="active"
             checked={jobData.active}
             onChange={handleChange}
-            style={styles.toggleInput}
-          />
+          />{" "}
           Active
         </label>
         <button type="submit" style={styles.button}>

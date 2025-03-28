@@ -108,10 +108,11 @@
 
 // export default Login;
 
+//
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import styles from "../styles/Login.module.css";
 
 const Login = () => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
@@ -126,51 +127,89 @@ const Login = () => {
     e.preventDefault();
     setError("");
 
-    console.log("Submitting credentials:", credentials);
-
     try {
-      console.log("called");
       const response = await axios.post(
         "http://192.168.250.1:4000/api/v1/emr/login",
         credentials,
-        {
-          timeout: 100000,
-        }
+        { timeout: 100000 }
       );
 
-      console.log("Response received:", response.data);
-
-      // alert("Login successful");
       const userData = response.data.data.employer;
-
       localStorage.setItem("loggedInUser", JSON.stringify(userData));
       localStorage.setItem(
         "accessToken",
         JSON.stringify(response.data.data.accessToken)
       );
 
-      console.log(userData);
-      // navigate("/application/id");
+      // navigate("/application/67a0d2407779e8fc9e834a56");
       navigate("/dashboard");
     } catch (err) {
-      console.error("Login Error:", err);
       setError(
         err.response?.data?.message || "Login failed. Please try again."
       );
     }
   };
 
+  const styles = {
+    container: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "100vh",
+      background: "linear-gradient(to right, #f0f8ff, #dbe9fa)",
+    },
+    form: {
+      backgroundColor: "#fff",
+      padding: "40px",
+      borderRadius: "12px",
+      boxShadow: "0 6px 15px rgba(0, 0, 0, 0.1)",
+      width: "450px", // Increased width
+      minHeight: "350px", // Increased height
+      textAlign: "center",
+    },
+    input: {
+      width: "100%",
+      padding: "14px",
+      margin: "12px 0",
+      borderRadius: "8px",
+      border: "1px solid #ccc",
+      outline: "none",
+      fontSize: "16px",
+    },
+    button: {
+      width: "100%",
+      padding: "14px",
+      backgroundColor: "#0056b3",
+      color: "#fff",
+      border: "none",
+      borderRadius: "8px",
+      cursor: "pointer",
+      fontSize: "18px",
+      fontWeight: "bold",
+      marginTop: "12px",
+      transition: "background 0.3s ease",
+    },
+    buttonHover: {
+      backgroundColor: "#003d80",
+    },
+    error: {
+      color: "red",
+      fontSize: "14px",
+    },
+  };
+
   return (
-    <section className={styles.loginContainer}>
-      <form className={styles.loginForm} onSubmit={handleSubmit}>
+    <div style={styles.container}>
+      <form style={styles.form} onSubmit={handleSubmit}>
         <h2>Login</h2>
-        {error && <p className={styles.error}>{error}</p>}
+        {error && <p style={styles.error}>{error}</p>}
         <input
           name="email"
           type="email"
           placeholder="Email"
           value={credentials.email}
           onChange={handleChange}
+          style={styles.input}
           required
         />
         <input
@@ -179,13 +218,14 @@ const Login = () => {
           placeholder="Password"
           value={credentials.password}
           onChange={handleChange}
+          style={styles.input}
           required
         />
-        <button className="Button" type="submit">
+        <button type="submit" style={styles.button}>
           Login
         </button>
       </form>
-    </section>
+    </div>
   );
 };
 

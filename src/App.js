@@ -1,4 +1,4 @@
-import { Routes, Route, useParams } from "react-router-dom"; // ❌ Yahan Router import na karein
+import { Routes, Route, useParams } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -11,7 +11,9 @@ import EditJob from "./pages/EditJob";
 import MyApplications from "./pages/MyApplications";
 import Footer from "./components/Footer";
 import ViewSingleApplication from "./components/ViewSingleApplication";
-
+import JobDetails from "./pages/JobDetails"; // ✅ Import JobDetails
+import UpdateJob from "./pages/UpdateJob"; // ✅ Import UpdateJob
+import JobApplicationDetails from "./pages/JobApplicationDetails";
 function App() {
   return (
     <>
@@ -30,14 +32,36 @@ function App() {
           path="/application/:applicationID"
           element={<ViewSingleApplicationWrapper />}
         />
+        <Route path="/job/:jobId" element={<JobDetails />} />
+        <Route
+          path="/job-application/:appId"
+          element={<JobApplicationDetails />}
+        />
+        <Route path="/job/:jobId" element={<JobDetailsWrapper />} />{" "}
+        {/* ✅ Added JobDetails Route */}
+        <Route path="/update-job/:jobId" element={<UpdateJobWrapper />} />{" "}
+        {/* ✅ Added UpdateJob Route */}
       </Routes>
       <Footer />
     </>
   );
 }
 
+// ✅ Wrapper Component for UpdateJob
+const UpdateJobWrapper = () => {
+  const { jobId } = useParams();
+  return <UpdateJob jobId={jobId} />;
+};
+
+// ✅ Wrapper Component for JobDetails
+const JobDetailsWrapper = () => {
+  const { jobId } = useParams();
+  return <JobDetails jobId={jobId} />;
+};
+
 const ViewSingleApplicationWrapper = () => {
   const { applicationID } = useParams();
   return <ViewSingleApplication applicationID={applicationID} />;
 };
+
 export default App;

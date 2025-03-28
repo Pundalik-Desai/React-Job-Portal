@@ -1,267 +1,143 @@
-import React, { useState } from "react";
+import React from "react";
 
-const AddJob = () => {
-  const [jobData, setJobData] = useState({
-    title: "",
-    description: "",
-    location: "",
-    salaryRange: "",
-    jobType: "Full Time", // Default value
-    jobHours: "",
-    openings: "",
-    qualification: "",
-    instructions: "",
-    contactInfo: "",
-    closeDate: "",
-    active: false, // Default false
-  });
-
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setJobData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+const Dashboard = () => {
+  const user = JSON.parse(localStorage.getItem("loggedInUser")) || {
+    role: "Guest",
+    name: "Visitor",
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const accessToken = JSON.parse(localStorage.getItem("accessToken"));
-
-    if (!accessToken) {
-      alert("Unauthorized! Please log in again.");
-      return;
-    }
-
-    try {
-      const response = await fetch("http://192.168.250.1:4000/api/v1/emr/job", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify(jobData),
-      });
-
-      if (response.ok) {
-        alert("Job posted successfully!");
-        setJobData({
-          title: "",
-          description: "",
-          location: "",
-          salaryRange: "",
-          jobType: "Full Time",
-          jobHours: "",
-          openings: "",
-          qualification: "",
-          instructions: "",
-          contactInfo: "",
-          closeDate: "",
-          active: false,
-        });
-      } else {
-        const errorData = await response.json();
-        alert(`Failed to post job: ${errorData.message || "Unknown error"}`);
-      }
-    } catch (error) {
-      console.error("Error posting job:", error);
-      alert("An error occurred while posting the job.");
-    }
-  };
-
-  // Internal styles
+  // Updated styles for better UI consistency
   const styles = {
-    addJobContainer: {
+    dashboard: {
+      backgroundColor: "#e3f2fd", // Light blue for a fresh look
+      minHeight: "100vh",
+      padding: "20px",
+      color: "#333",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+    },
+    welcomeSection: {
+      backgroundColor: "#1976d2", // Deep blue for contrast
+      color: "#ffffff",
+      padding: "20px",
+      borderRadius: "8px",
+      marginBottom: "20px",
+      textAlign: "center",
+      boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+      width: "80%",
+    },
+    quickLinks: {
+      marginBottom: "40px", // Increased space between Quick Links and Your Stats
+      textAlign: "center",
+    },
+    linksContainer: {
       display: "flex",
       justifyContent: "center",
-      alignItems: "center",
-      minHeight: "100vh",
-      backgroundColor: "#f5f5f5",
-      padding: "20px",
+      flexWrap: "wrap",
+      gap: "15px",
+      marginTop: "10px",
     },
-    addJobForm: {
-      backgroundColor: "#ffffff",
-      borderRadius: "8px",
-      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
-      padding: "30px",
-      width: "100%",
-      maxWidth: "600px",
-    },
-    formTitle: {
-      textAlign: "center",
-      marginBottom: "20px",
-      color: "#333",
-    },
-    input: {
-      width: "100%",
-      padding: "12px",
-      margin: "10px 0",
-      border: "1px solid #ddd",
-      borderRadius: "5px",
-      fontSize: "16px",
-      transition: "border-color 0.3s",
-    },
-    inputFocus: {
-      borderColor: "#61dafb",
-    },
-    textarea: {
-      width: "100%",
-      padding: "12px",
-      margin: "10px 0",
-      border: "1px solid #ddd",
-      borderRadius: "5px",
-      fontSize: "16px",
-      resize: "vertical",
-      transition: "border-color 0.3s",
-    },
-    select: {
-      width: "100%",
-      padding: "12px",
-      margin: "10px 0",
-      border: "1px solid #ddd",
-      borderRadius: "5px",
-      fontSize: "16px",
-    },
-    toggleContainer: {
-      display: "flex",
-      alignItems: "center",
-      margin: "10px 0",
-    },
-    toggleInput: {
-      marginRight: "10px",
-    },
-    button: {
-      width: "100%",
-      padding: "12px",
-      backgroundColor: "#61dafb",
-      border: "none",
-      borderRadius: "5px",
+    linkButton: {
+      backgroundColor: "#0288d1", // Brighter blue
       color: "#ffffff",
-      fontSize: "16px",
-      cursor: "pointer",
-      transition: "background-color 0.3s",
+      padding: "12px 18px",
+      borderRadius: "6px",
+      textDecoration: "none",
+      transition: "all 0.3s ease-in-out",
+      fontWeight: "bold",
+      boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
     },
-    buttonHover: {
-      backgroundColor: "#ff4d4d",
+    stats: {
+      textAlign: "center",
+    },
+    statsContainer: {
+      display: "flex",
+      justifyContent: "center",
+      flexWrap: "wrap",
+      gap: "15px",
+      marginTop: "20px", // Restored original spacing for stats section
+    },
+    statCard: {
+      backgroundColor: "#ffffff",
+      border: "1px solid #bbb",
+      borderRadius: "8px",
+      padding: "30px",
+      minWidth: "300px",
+      minHeight: "150px",
+      boxShadow: "0 3px 6px rgba(0,0,0,0.1)",
+      textAlign: "center",
+      fontSize: "1.5rem", // Increased text size
+      fontWeight: "bold",
     },
   };
 
   return (
-    <section style={styles.addJobContainer}>
-      <form style={styles.addJobForm} onSubmit={handleSubmit}>
-        <h2 style={styles.formTitle}>Add New Job</h2>
-        <input
-          name="title"
-          placeholder="Job Title"
-          value={jobData.title}
-          onChange={handleChange}
-          style={styles.input}
-          required
-        />
-        <textarea
-          name="description"
-          placeholder="Job Description"
-          value={jobData.description}
-          onChange={handleChange}
-          style={styles.textarea}
-          required
-        />
-        <input
-          name="location"
-          placeholder="Location"
-          value={jobData.location}
-          onChange={handleChange}
-          style={styles.input}
-          required
-        />
-        <input
-          name="salaryRange"
-          placeholder="Salary Range"
-          value={jobData.salaryRange}
-          onChange={handleChange}
-          style={styles.input}
-          required
-        />
-        <select
-          name="jobType"
-          value={jobData.jobType}
-          onChange={handleChange}
-          style={styles.select}
-          required
-        >
-          <option value="Full Time">Full Time</option>
-          <option value="Part Time">Part Time</option>
-        </select>
-        <input
-          name="jobHours"
-          type="number"
-          placeholder="Job Hours"
-          value={jobData.jobHours}
-          onChange={handleChange}
-          style={styles.input}
-          required
-        />
-        <input
-          name="openings"
-          type="number"
-          placeholder="Number of Openings"
-          value={jobData.openings}
-          onChange={handleChange}
-          style={styles.input}
-          required
-        />
-        <input
-          name="qualification"
-          placeholder="Qualification"
-          value={jobData.qualification}
-          onChange={handleChange}
-          style={styles.input}
-          required
-        />
-        <textarea
-          name="instructions"
-          placeholder="Instructions"
-          value={jobData.instructions}
-          onChange={handleChange}
-          style={styles.textarea}
-          required
-        />
-        <input
-          name="contactInfo"
-          placeholder="Contact Email"
-          value={jobData.contactInfo}
-          onChange={handleChange}
-          style={styles.input}
-          required
-        />
-        <label style={{ margin: "10px 0", color: "#333" }}>
-          Application Close Date :
-        </label>
-        <input
-          name="closeDate"
-          type="date"
-          value={jobData.closeDate}
-          onChange={handleChange}
-          style={styles.input}
-          required
-        />
-        <label style={styles.toggleContainer}>
-          <input
-            type="checkbox"
-            name="active"
-            checked={jobData.active}
-            onChange={handleChange}
-            style={styles.toggleInput}
-          />
-          Active
-        </label>
-        <button type="submit" style={styles.button}>
-          Add Job
-        </button>
-      </form>
+    <section style={styles.dashboard}>
+      <div style={styles.welcomeSection}>
+        <h2>Welcome to Your Dashboard, {user.name}!</h2>
+        <p>
+          {user.role === "Job Seeker"
+            ? "Track your applications, explore new opportunities, and achieve your career goals."
+            : "Manage job postings, review applications, and hire top talent for your team."}
+        </p>
+      </div>
+
+      <div style={styles.quickLinks}>
+        <h3>Quick Links</h3>
+        <div style={styles.linksContainer}>
+          {user.role === "Job Seeker" ? (
+            <>
+              <a href="#/all-jobs" style={styles.linkButton}>
+                Explore Jobs
+              </a>
+              <a href="#/applications" style={styles.linkButton}>
+                My Applications
+              </a>
+            </>
+          ) : (
+            <>
+              <a href="#/add-jobs" style={styles.linkButton}>
+                Add a Job
+              </a>
+              <a href="#/applications" style={styles.linkButton}>
+                View Applicants
+              </a>
+            </>
+          )}
+        </div>
+      </div>
+
+      <div style={styles.stats}>
+        <h3>Your Stats</h3>
+        <div style={styles.statsContainer}>
+          {user.role === "Job Seeker" ? (
+            <>
+              <div style={styles.statCard}>
+                <h4>Applications Sent</h4>
+                <p>10</p>
+              </div>
+              <div style={styles.statCard}>
+                <h4>Jobs Saved</h4>
+                <p>5</p>
+              </div>
+            </>
+          ) : (
+            <>
+              <div style={styles.statCard}>
+                <h4>Jobs Posted</h4>
+                <p>8</p>
+              </div>
+              <div style={styles.statCard}>
+                <h4>Applications Received</h4>
+                <p>25</p>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
     </section>
   );
 };
 
-export default AddJob;
+export default Dashboard;
